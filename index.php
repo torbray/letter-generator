@@ -30,7 +30,7 @@ if (isset($_GET['filename']) and !empty($_GET['filename'])) {
             break;
         
         case 'test2':
-            include 'src/word/test-zip.php';
+            include 'src/generate-letter.php';
             break;
 
         default:
