@@ -1,0 +1,27 @@
+form {
+    width: calc(100% - 40px);
+    
+    padding: 20px;    
+}
+
+input {
+    width: 100%;
+
+    padding: 10px;
+    margin: 8px 0;
+    margin-bottom: 20px;
+
+    box-sizing: border-box;
+    font-family: 'Myriad Pro', sans-serif;
+}
+
+button.primary-cta {
+    float: right;
+    padding: 10px;
+
+    background-color: var(--title-color);
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+}
