@@ -1,5 +1,15 @@
 <header class="top-bar">
-    <a class="title-logo" href="<?php echo URL; ?>">Letter Generator<?php 
+    <?php
+    $direct;
+    if (isLogged()) {
+        $direct = URL . "/home";
+    } else {
+        $direct = URL;
+    }
+
+    ?>
+
+    <a class="title-logo" href="<?php echo $direct; ?>">Letter Generator<?php 
     if (str_contains($_SERVER['REQUEST_URI'], "/admin")) {
         echo " - Admin";
     }

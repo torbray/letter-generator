@@ -20,6 +20,10 @@ function initSession() {
     if (!isset($_SESSION['customer'])) {
         $_SESSION['customer'] = 0;
     }
+
+    if (!isset($_SESSION['letter'])) {
+        $_SESSION['letter'] = '';
+    }
 }
 
 /**
@@ -32,7 +36,7 @@ function checkUser() {
     } else {
         // Save current URL for redirect
         $_SESSION['URI'] = $_SERVER['REQUEST_URI'];
-        header('Location: '.URL, TRUE, 303);       
+        header('Location: ' . URL, TRUE, 303);       
     }
 }
 
@@ -58,8 +62,7 @@ function login($id) {
 
     $_SESSION['loggedin'] = 1;        
     $_SESSION['userid'] = $id;
-    $_SESSION['URI'] = ''; 
-    $_SESSION['customer'] = 0; 
+    resetSessionValues();
 
     header('Location: ' . $uri, true, 303);        
 }
@@ -77,8 +80,7 @@ function admin_login($id) {
 
     $_SESSION['loggedin'] = 1;        
     $_SESSION['userid'] = $id;
-    $_SESSION['URI'] = ''; 
-    $_SESSION['customer'] = 0; 
+    resetSessionValues();
 
     header('Location: ' . $uri, true, 303);        
 }
@@ -88,9 +90,8 @@ function admin_login($id) {
  */
 function logout(){
     $_SESSION['loggedin'] = 0;
-    $_SESSION['userid'] = -1;        
-    $_SESSION['URI'] = '';
-    $_SESSION['customer'] = 0; 
+    $_SESSION['userid'] = -1;    
+    resetSessionValues();    
 
     header("Location: ".URL, true, 303);    
 }
@@ -101,6 +102,12 @@ function getCustomerID() {
     } else {
         return '';
     }
+}
+
+function resetSessionValues() {
+    $_SESSION['URI'] = '';
+    $_SESSION['customer'] = 0; 
+    $_SESSION['letter'] = '';
 }
 
 ?>

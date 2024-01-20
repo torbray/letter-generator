@@ -3,13 +3,15 @@
 
 }
 
-form.customer-search {
+form.customer-search,
+form.letter-options {
     width: calc(100% - 40px);
     
     padding: 20px;    
 }
 
-input.customer-search {
+input.customer-search,
+select#letter-type {
     width: 100%;
 
     padding: 10px;
@@ -25,7 +27,9 @@ input.customer-search::-webkit-inner-spin-button {
    -webkit-appearance: none;
 }
 
-button.customer-cta {
+button.cta {
+    width: 70px;
+
     float: right;
     padding: 10px;
 

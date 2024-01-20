@@ -11,6 +11,11 @@ if (isset($_GET['filename']) and !empty($_GET['filename'])) {
             include 'tpl/home.tpl.php';
             break;
 
+        case 'generate-letter';
+            include 'tpl/generate-letter.tpl.php';
+            break;
+
+
         case 'admin':
             require 'src/admin.php';
             include 'tpl/admin.tpl.php';
