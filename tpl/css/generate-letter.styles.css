@@ -1,5 +1,20 @@
 .letter-subtitle {
+    margin: 10px 0 20px 0;
+}
+
+.letter-subtitle-id {
+    margin-left: 20px;
+
+    color: var(--title-color);
+    font-weight: bold;
+}
+
+.letter-category {
     margin-bottom: 20px;
+}
+
+.letter-category h2 {
+    font-size: 16px;
 }
 
 .letter-variable {
@@ -8,6 +23,8 @@
     display: flex;
 
     margin: 10px 0;
+
+    font-size: 14px;
 }
 
 .letter-variable label {
@@ -16,10 +33,18 @@
     display: block;
 
     align-self: center;
+    font-size: 16px;
 }
 
-.letter-variable input {
+.letter-variable input,
+.letter-variable textarea {
+    width: 200px;
+
     padding: 5px 8px;
+}
+
+.letter-variable textarea {
+    font-family: 'Myriad Pro', sans-serif;
 }
 
 button.cta {

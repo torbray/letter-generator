@@ -1,14 +1,5 @@
 <?php
 
-// Prints variable data from POST form data as debugging
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (isset($_POST['submit']) and !empty($_POST['submit'] and $_POST['submit'] == 'review')) {
-        foreach ($_POST as $key => $value) {
-            echo "Field ".htmlspecialchars($key)." is ".htmlspecialchars($value)."<br>";
-        }
-    }
-}
-
 checkUser();
 
 require_once 'vendor/autoload.php';
@@ -20,7 +11,21 @@ if (!isset($_SESSION['letter']) or empty($_SESSION['letter'])) {
 require_once 'word/letter-template.php'; 
 
 // Loading template document
-$template = new LetterTemplate('tpl/word/' . $_SESSION['letter'] . '.docx');
+$letter_path = 'tpl/word/' . $_SESSION['letter'] . '.docx';
+$template = new LetterTemplate($letter_path);
+
+// Prints variable data from POST form data as debugging
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['submit']) and !empty($_POST['submit'] and $_POST['submit'] == 'review')) {
+        // foreach ($_POST as $key => $value) {
+        //     echo "Field ".htmlspecialchars($key)." is ".htmlspecialchars($value)."<br>";
+        // }
+
+        // Debugging purposes
+        $template -> generatePDF($_POST, "password");
+    }
+
+}
 
 // $template = new TemplateProcessor($path);
 $getvar = $template -> getVariables();
@@ -29,14 +34,14 @@ $letter_tree = [];
 
 foreach ($getvar as $variable) {
     $keys = explode('.', $variable);
-    $currentArray = &$letter_tree;
+    $current_array = &$letter_tree;
 
     foreach ($keys as $key) {
-        if (!isset($currentArray[$key])) {
-            $currentArray[$key] = [];
+        if (!isset($current_array[$key])) {
+            $current_array[$key] = [];
         }
 
-        $currentArray = &$currentArray[$key];
+        $current_array = &$current_array[$key];
     }
 }
 

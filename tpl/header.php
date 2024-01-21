@@ -2,7 +2,7 @@
     <?php
     $direct;
     if (isLogged()) {
-        $direct = URL . "/home";
+        $direct = URL . "home";
     } else {
         $direct = URL;
     }
