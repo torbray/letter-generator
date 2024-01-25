@@ -20,12 +20,42 @@ include "tpl/header.php";
                 <input type="number" class="customer-search" type="text" id="customer-id" name="customer-id" value="<?php echo getCustomerID(); ?>" required>
 
                 <?php
-                if (!empty($search_error)) {
-                    if ($search_error == "invalid") {
-                        echo "Invalid customer ID. Please try again.";
-                    } else if ($search_error == "unloaded") {
-                        echo "Please load a customer ID.";
+                if ($search_error > 0) {
+                    echo "<p>$search_error_msg</p>";
+                } else if (isset($_SESSION['customer']) and !empty($_SESSION['customer'] and $_SESSION['customer'] > 0)) {
+                    if (!DBController::$is_connected) {
+                        $DBC = DBController::getDBConnection();
                     }
+
+                    $query = <<<SQL
+                    SELECT first_name, last_name
+                    FROM customer
+                    WHERE customer_id = ?
+                    LIMIT 1;
+                    SQL;
+            
+                    // Bind params to query
+                    $stmt = mysqli_prepare($DBC, $query);
+                    mysqli_stmt_bind_param($stmt,'i', $_SESSION['customer']);
+                    mysqli_stmt_execute($stmt);
+                
+                    // retrieve mysqli_result object from $stmt
+                    $result = mysqli_stmt_get_result($stmt);
+                    $rowcount = mysqli_num_rows($result); 
+
+                    if ($rowcount > 0) {
+                        $row = mysqli_fetch_assoc($result);
+
+                        // assign variables
+                        $first_name = $row['first_name'];
+                        $last_name = $row['last_name'];
+
+                        echo <<<END
+                        <p>Loaded:
+                            <span class="customer-name">$first_name $last_name</span>
+                        </p>                        
+                        END;
+                    }                    
                 }
                 ?>
 
@@ -33,13 +63,16 @@ include "tpl/header.php";
             </form>
         </section>
 
+        <?php
+        if (isset($_SESSION['customer']) and !empty($_SESSION['customer'] and $_SESSION['customer'] > 0)) {
+        ?>
+
         <section class="letter-types">
             <h2>Letter Types</h2>
 
             <form class="letter-options" action="" method="post">
                 <label for="letter-type">Choose a Letter Template:</label>
                 <select id="letter-type" name="letter-type">
-                <!-- For the final prototype, the letter templates locations will be stored in a database-->
                 <?php 
                 
                 $dir = 'tpl/word';
@@ -55,6 +88,10 @@ include "tpl/header.php";
                 <button class="cta" id="post-load" type="submit" name="submit" value="Load">Load</button>
             </form>
         </section>
+
+        <?php
+        }
+        ?>
 
         <section class="test-links">
             <h2>Test Links</h2>

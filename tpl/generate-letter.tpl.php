@@ -42,6 +42,7 @@ include "tpl/header.php";
                         $input_tag = 'textarea';
                     }
 
+                    // Create label and input
                     $result = <<<END
                     <div class="letter-variable">
                         <label for="$full_name">$label_title:</label>

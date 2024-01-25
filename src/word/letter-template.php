@@ -22,15 +22,15 @@ class LetterTemplate extends TemplateProcessor {
         }
         
         $filename = "test template result";
-        $this -> saveAs('tmp/' . $filename . '.docx');
+        $this -> saveAs('var/cache/' . $filename . '.docx');
         
         \PhpOffice\PhpWord\Settings::setPdfRendererName(\PhpOffice\PhpWord\Settings::PDF_RENDERER_MPDF);
         \PhpOffice\PhpWord\Settings::setPdfRendererPath('vendor/mpdf/mpdf');
         
         // Save locally
-        $phpWord = IOFactory::load('tmp/' . $filename . '.docx');
+        $phpWord = IOFactory::load('var/cache/' . $filename . '.docx');
         $writer = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'PDF');
-        $writer -> save('tmp/' . $filename . '.pdf');
+        $writer -> save('var/cache/' . $filename . '.pdf');
         
         // Include the main TCPDF library and TCPDI.
         require_once('vendor/tecnickcom/tcpdf/tcpdf.php');
@@ -46,11 +46,11 @@ class LetterTemplate extends TemplateProcessor {
         
         // Add a page from a PDF by file path.
         $pdf -> AddPage();
-        $pdf -> setSourceFile('tmp/' . $filename . '.pdf');
+        $pdf -> setSourceFile('var/cache/' . $filename . '.pdf');
         $idx = $pdf -> importPage(1);
         $pdf -> useTemplate($idx);
         
-        file_put_contents('tmp/output.pdf', $pdf -> Output('', 'S'));
+        file_put_contents('var/cache/output.pdf', $pdf -> Output('', 'S'));
         
         // save as a random file in temp file
         header('Content-Description: File Transfer');
@@ -60,9 +60,9 @@ class LetterTemplate extends TemplateProcessor {
         header('Expires: 0');
         header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
         header('Pragma: public');
-        header('Content-Length: ' . filesize('tmp/output.pdf'));
+        header('Content-Length: ' . filesize('var/cache/output.pdf'));
         
-        $file = 'tmp/output.pdf';
+        $file = 'var/cache/output.pdf';
         // $file -> save('php://output', 'PDF');
         readfile($file);
         

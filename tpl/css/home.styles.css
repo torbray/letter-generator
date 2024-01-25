@@ -39,3 +39,10 @@ button.cta {
     color: white;
     cursor: pointer;
 }
+
+.customer-name {
+    margin-left: 20px;
+
+    color: var(--title-color);
+    font-weight: bold;
+}
