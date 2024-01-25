@@ -2,7 +2,7 @@
 
 checkUser();
 
-require_once 'src/functions/dbcontroller.php';
+require_once 'src/controller/dbcontroller.php';
 
 // Declaring error variables
 $search_error = 0;

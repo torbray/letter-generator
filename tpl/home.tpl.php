@@ -93,11 +93,6 @@ include "tpl/header.php";
         }
         ?>
 
-        <section class="test-links">
-            <h2>Test Links</h2>
-            <a href="test1">Test 1</a>
-            <a href="test2">Test 2</a>
-        </section>
     </section>
     
 </body>

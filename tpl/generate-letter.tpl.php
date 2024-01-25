@@ -25,41 +25,18 @@ include "tpl/header.php";
         </p>
 
         <section class="letter-values">
+            <?php
+            // echo $customer -> getFullName();
+            ?>
+
             <form action="" method="post" class="letters">
-                <?php
-                
-                function generateInput(...$values) {
-                    $long_inputs = ["customer-address", "account-name"];
+                <?php                
+                /** Letter template variables
+                 * All variables are generated dynamically based on the Word
+                 * template variables, stored within the file itself
+                 */
 
-                    // Labels
-                    $labels = array_reverse(array_slice($values, 1));
-
-                    $label_title = ucwords(implode(" ", $labels));
-                    $full_name = implode("-", $values);
-
-                    $input_tag = 'input';
-                    if (in_array($full_name, $long_inputs)) {
-                        $input_tag = 'textarea';
-                    }
-
-                    // Create label and input
-                    $result = <<<END
-                    <div class="letter-variable">
-                        <label for="$full_name">$label_title:</label>
-                        <$input_tag name="$full_name" required>
-                    
-                    END;
-
-                    if (in_array($full_name, $long_inputs)) {
-                        $result .= '</textarea>';
-                    }
-
-                    return $result . "</div>";
-                }
-                
-                // Letter template variables
-                foreach ($letter_tree as $category => $data) {
-                    
+                foreach ($letter_tree as $category => $data) {                    
                     if (is_array($data) && !empty($data)) {
                         echo '<div class="letter-category">';
                         echo '<h2>' . ucwords($category) . '</h2>' . PHP_EOL;
@@ -70,10 +47,10 @@ include "tpl/header.php";
                     foreach ($data as $value => $data2) {
                         if (is_array($data2) && !empty($data2)) {
                             foreach ($data2 as $subvalue => $data3) {
-                                echo generateInput($category, $value, $subvalue);
+                                echo LetterController::generateInput($category, $value, $subvalue);
                             }
                         } else {
-                            echo generateInput($category, $value);
+                            echo LetterController::generateInput($category, $value);
                         }
                     }
                     echo '</div>';
