@@ -15,6 +15,9 @@ if (isset($_GET['filename']) and !empty($_GET['filename'])) {
             include 'tpl/generate-letter.tpl.php';
             break;
 
+        case 'review';
+            include 'tpl/review.tpl.php';
+            break;
 
         case 'admin':
             require 'src/admin.php';
@@ -25,17 +28,13 @@ if (isset($_GET['filename']) and !empty($_GET['filename'])) {
             include 'tpl/admin.home.tpl.php';
             break;
 
+        case 'admin/first-login';
+            include 'tpl/admin.first-login.tpl.php';
+            break;
+
         case 'logout':
         case 'admin/logout':
             include 'tpl/logout.tpl.php';
-            break;
-        
-        case 'test1':
-            include 'src/word/test-replacement.php';
-            break;
-        
-        case 'test2':
-            include 'src/generate-letter.php';
             break;
 
         default:

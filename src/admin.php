@@ -1,5 +1,18 @@
 <?php
 
+require_once 'src/controller/dbcontroller.php';
+
+// Establish DB Connection
+if (!(DBController::$is_connected)) {
+    $DBC = DBController::getDBConnection();
+}
+
+// If no admin accounts, move to first account creation
+if (!isAdmin()) {
+    header('Location: admin/first-login', true, 303);
+}
+
+// If logged in on a consultant account, refer to home
 if (isset($_SESSION['loggedin']) and !empty($_SESSION['loggedin']) and $_SESSION['loggedin'] == 1) {
     header('Location: home', TRUE, 303);  
 }

@@ -21,6 +21,10 @@ function initSession() {
         $_SESSION['customer'] = 0;
     }
 
+    if (!isset($_SESSION['access'])) {
+        $_SESSION['access'] = 0;
+    }
+
     if (!isset($_SESSION['letter'])) {
         $_SESSION['letter'] = '';
     }
@@ -62,6 +66,7 @@ function login($id) {
 
     $_SESSION['loggedin'] = 1;        
     $_SESSION['userid'] = $id;
+    $_SESSION['access'] = 1;
     resetSessionValues();
 
     header('Location: ' . $uri, true, 303);        
@@ -80,6 +85,7 @@ function admin_login($id) {
 
     $_SESSION['loggedin'] = 1;        
     $_SESSION['userid'] = $id;
+    $_SESSION['access'] = 2;
     resetSessionValues();
 
     header('Location: ' . $uri, true, 303);        
@@ -93,7 +99,7 @@ function logout(){
     $_SESSION['userid'] = -1;    
     resetSessionValues();    
 
-    header("Location: ".URL, true, 303);    
+    header("Location: " . URL, true, 303);    
 }
 
 function getCustomerID() {
@@ -104,10 +110,15 @@ function getCustomerID() {
     }
 }
 
+function isAdmin() {
+    return $_SESSION['access'] == 2;
+}
+
 function resetSessionValues() {
     $_SESSION['URI'] = '';
     $_SESSION['customer'] = 0; 
     $_SESSION['letter'] = '';
+    $_SESSION['access'] = 0;
 }
 
 ?>
