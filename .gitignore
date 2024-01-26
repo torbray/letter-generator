@@ -1,1 +1,4 @@
 config/config.php
+var/cache/test template result.docx
+var/cache/test template result.pdf
+var/cache/output.pdf

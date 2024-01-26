@@ -1,3 +1,7 @@
+<?php
+require_once 'src/admin.first-login.php';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,8 +22,20 @@ include "tpl/header.php";
         <p>Please create the first account for the admin portal.</p>
         <form action="" onsubmit="return validateForm()" method="post">
             <div class="field-group">
+                <label for="first-name">First Name:</label>
+                <input type="text" id="first-name" name="first-name" onkeyup="validateFirstName();" required />
+                <span class="status-message" id="first-name-status"></span>
+            </div>
+
+            <div class="field-group">
+                <label for="last-name">Last Name:</label>
+                <input type="text" id="last-name" name="last-name" onkeyup="validateLastName();" required />
+                <span class="status-message" id="last-name-status"></span>
+            </div>
+
+            <div class="field-group">
                 <label for="username">Username:</label>
-                <input type="text" id="username" name="username" onkeyup="validateUsername()" required />
+                <input type="text" id="username" name="username" onkeyup="validateUsername();" required />
                 <span class="status-message" id="username-status"></span>
             </div>
 
@@ -33,8 +49,15 @@ include "tpl/header.php";
                 <label for="reenter-password">Re-enter Password:</label>
                 <input type="password" id="reenter-password" name="reenter-password" onkeyup='matchPassword();' required />
                 <span class="status-message" id="reenter-password-status"></span>
-            </div>            
+            </div>
 
+            <span class="main-status">
+                <?php 
+                if ($error > 0) {
+                    echo $error_message;
+                }
+                ?>
+            </span>
             <button class="primary-cta" type="submit" name="submit" value="Create">Create</button>
         </form>
     </section>

@@ -40,6 +40,10 @@ button.cta {
     cursor: pointer;
 }
 
+.search-status {
+    font-size: 13px;
+}
+
 .customer-name {
     margin-left: 20px;
 

@@ -1,5 +1,7 @@
 <?php
 
+$DBC = null;
+
 define ('URL', 'http://localhost/letter-generator/');
 
 include 'src/checksession.php';
@@ -29,6 +31,7 @@ if (isset($_GET['filename']) and !empty($_GET['filename'])) {
             break;
 
         case 'admin/first-login';
+            require 'src/admin.first-login.php';
             include 'tpl/admin.first-login.tpl.php';
             break;
 

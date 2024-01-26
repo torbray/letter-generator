@@ -3,7 +3,7 @@
 require_once 'src/controller/dbcontroller.php';
 
 // Establish DB Connection
-if (!(DBController::$is_connected)) {
+if ($DBC == null) {
     $DBC = DBController::getDBConnection();
 }
 

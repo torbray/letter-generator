@@ -15,7 +15,7 @@ if (isset($_POST['submit']) and !empty($_POST['submit'])) {
         $search = $_POST["customer-id"];
 
         // Connect to database here
-        if (!DBController::$is_connected) {
+        if ($DBC == null) {
             $DBC = DBController::getDBConnection();
         }
         

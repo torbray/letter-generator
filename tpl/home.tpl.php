@@ -21,9 +21,9 @@ include "tpl/header.php";
 
                 <?php
                 if ($search_error > 0) {
-                    echo "<p>$search_error_msg</p>";
+                    echo '<p class="search-status">' . $search_error_msg . '</p>';
                 } else if (isset($_SESSION['customer']) and !empty($_SESSION['customer'] and $_SESSION['customer'] > 0)) {
-                    if (!DBController::$is_connected) {
+                    if ($DBC == null) {
                         $DBC = DBController::getDBConnection();
                     }
 
@@ -51,7 +51,7 @@ include "tpl/header.php";
                         $last_name = $row['last_name'];
 
                         echo <<<END
-                        <p>Loaded:
+                        <p class="search-status">Loaded:
                             <span class="customer-name">$first_name $last_name</span>
                         </p>                        
                         END;
