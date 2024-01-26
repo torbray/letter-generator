@@ -8,9 +8,11 @@ class DBController {
 
     /**
      * Create $DBC connection
+     * 
+     * @return mysqli|false
      */
     public static function getDBConnection() {
-        if (isset(self::$DBC) and !empty(self::$DBC)) {
+        if (self::$DBC != null) {
             return;
         }
 
@@ -43,9 +45,7 @@ class DBController {
     }
 
     public static function getUsername($check) {
-        if (self::$DBC == NULL) {
-            $DBC = self::getDBConnection();
-        }
+        self::getDBConnection();
 
         $query = <<<SQL
         SELECT username
@@ -53,7 +53,7 @@ class DBController {
         WHERE username = ?;
         SQL;
     
-        $stmt = mysqli_prepare($DBC, $query);
+        $stmt = mysqli_prepare(self::$DBC, $query);
         mysqli_stmt_bind_param($stmt, 's', $check);
     
         $result = mysqli_stmt_get_result($stmt);
@@ -69,6 +69,70 @@ class DBController {
         } else {
             return NULL;
         }
+    }
+
+    public static function ifAdminAccounts() {
+        self::getDBConnection();
+
+        $query = <<<SQL
+        SELECT COUNT(employee_id) AS total
+        FROM employee
+        INNER JOIN job_title
+        ON employee.job_id = job_title.job_id
+        WHERE job_title.access_level = 2
+        SQL;
+    
+        $result = mysqli_query(self::$DBC, $query);
+        
+        if ($result) {
+            $rowcount = mysqli_num_rows($result); 
+
+            if ($rowcount > 0) {
+                $row = mysqli_fetch_assoc($result);
+                return $row['total'] > 0;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    /** 
+     * Confirm if the login is successful
+     * 
+     * @return Boolean if user login is successful
+     */
+    public static function verifyLogin($username, $password) {
+        self::getDBConnection();
+
+        // Prepare query
+        // Hash column is hashed
+        $query = <<<SQL
+            SELECT employee_id, password
+            FROM employee
+            WHERE username = ?
+            LIMIT 1;
+            SQL;
+        
+        // Bind params to query
+        $stmt = mysqli_prepare(self::$DBC, $query);
+        mysqli_stmt_bind_param($stmt,'s', $username);
+        mysqli_stmt_execute($stmt);
+
+        // retrieve mysqli_result object from $stmt
+        $result = mysqli_stmt_get_result($stmt);
+        $rowcount = mysqli_num_rows($result);
+
+        if ($rowcount > 0) {
+            $row = mysqli_fetch_assoc($result);
+
+            if (password_verify($password, $row['password'])) {
+                return $row['employee_id'];
+            }
+        }
+
+        return -1;
     }
 }
 

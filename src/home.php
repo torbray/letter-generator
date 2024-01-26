@@ -15,9 +15,7 @@ if (isset($_POST['submit']) and !empty($_POST['submit'])) {
         $search = $_POST["customer-id"];
 
         // Connect to database here
-        if ($DBC == null) {
-            $DBC = DBController::getDBConnection();
-        }
+        DBController::getDBConnection();
         
         $query = <<<SQL
             SELECT customer_id
@@ -27,7 +25,7 @@ if (isset($_POST['submit']) and !empty($_POST['submit'])) {
             SQL;
     
         // Bind params to query
-        $stmt = mysqli_prepare($DBC, $query);
+        $stmt = mysqli_prepare(DBController::$DBC, $query);
         mysqli_stmt_bind_param($stmt,'i', $search);
         mysqli_stmt_execute($stmt);
     

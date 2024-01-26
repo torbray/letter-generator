@@ -2,6 +2,13 @@
 
 require_once 'src/controller/dbcontroller.php';
 
+if (DBController::ifAdminAccounts()) {
+    header('Location: admin', true, 303);
+}
+
+// Initialize database
+DBController::getDBConnection();
+
 // Initialize variables
 $error = 0; //clear our error flag
 $error_message = 'Error ';
@@ -11,7 +18,20 @@ $error_message = 'Error ';
 if (isset($_POST['submit']) and !empty($_POST['submit']) and ($_POST['submit'] == 'Create')) {     
 
     // #1 first name
+    if (isset($_POST['first-name']) and !empty($_POST['first-name'])) {
+        $first_name = DBController::cleanInput($_POST['first-name']); 
+    } else {
+        $error++; //bump the error flag
+        $error_message .= 'Invalid first name '; //append error message
+    }
+
     // #2 last name
+    if (isset($_POST['last-name']) and !empty($_POST['last-name'])) {
+        $last_name = DBController::cleanInput($_POST['last-name']); 
+    } else {
+        $error++; //bump the error flag
+        $error_message .= 'Invalid last name '; //append error message
+    }
 
     // #3 username
     if (isset($_POST['username']) and !empty($_POST['username'])) {
@@ -44,20 +64,46 @@ if (isset($_POST['submit']) and !empty($_POST['submit']) and ($_POST['submit'] =
     // echo "Success!";
     
     // If validation errors, cancel post
-    if ($error != 0) {
-        echo "<h2>$error_message</h2>".PHP_EOL;
-    } else {
+    if ($error == 0) {
+        DBController::getDBConnection();
 
+        // Add admin to database
         $query = <<<SQL
-        INSERT INTO employee (first_name, last_name, username, password) 
-        VALUES (?, ?);
+        INSERT INTO employee (first_name, last_name, username, password, job_id) 
+        VALUES (?, ?, ?, ?, 3);
         SQL;
 
-        $stmt = mysqli_prepare($DBC, $query); //prepare the query
-        mysqli_stmt_bind_param($stmt,'ss', $username, $hashed_password); 
+        $stmt = mysqli_prepare(DBController::$DBC, $query); //prepare the query
+        mysqli_stmt_bind_param($stmt,'ssss', $first_name, $last_name, $username, $hashed_password); 
         mysqli_stmt_execute($stmt);
-        mysqli_stmt_close($stmt);    
-        echo "<h2>User added.</h2>";  
+        mysqli_stmt_close($stmt);
+
+        // Confirm admin added to database and login with ID
+        $query = <<<SQL
+        SELECT employee_id
+        FROM employee
+        WHERE username = ?
+        LIMIT 1;
+        SQL;
+
+        // Bind params to query
+        $stmt = mysqli_prepare(DBController::$DBC, $query);
+        mysqli_stmt_bind_param($stmt,'s', $username);
+        mysqli_stmt_execute($stmt);
+    
+        // retrieve mysqli_result object from $stmt
+        $result = mysqli_stmt_get_result($stmt);
+        $rowcount = mysqli_num_rows($result);
+
+        if ($rowcount > 0) {
+            $row = mysqli_fetch_assoc($result);
+            admin_login($row['employee_id']);
+        } else {
+            $error_msg .= 'Error: Please contact an administrator for further information. ';
+        }
+
+
+        
     }
 }
 

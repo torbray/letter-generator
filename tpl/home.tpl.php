@@ -23,9 +23,7 @@ include "tpl/header.php";
                 if ($search_error > 0) {
                     echo '<p class="search-status">' . $search_error_msg . '</p>';
                 } else if (isset($_SESSION['customer']) and !empty($_SESSION['customer'] and $_SESSION['customer'] > 0)) {
-                    if ($DBC == null) {
-                        $DBC = DBController::getDBConnection();
-                    }
+                    DBController::getDBConnection();
 
                     $query = <<<SQL
                     SELECT first_name, last_name
@@ -35,7 +33,7 @@ include "tpl/header.php";
                     SQL;
             
                     // Bind params to query
-                    $stmt = mysqli_prepare($DBC, $query);
+                    $stmt = mysqli_prepare(DBController::$DBC, $query);
                     mysqli_stmt_bind_param($stmt,'i', $_SESSION['customer']);
                     mysqli_stmt_execute($stmt);
                 

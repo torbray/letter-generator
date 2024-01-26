@@ -52,7 +52,7 @@ function validateUsername(send_status = false) {
     let usernameStatus = document.getElementById("username-status");
 
     // Only alphanumeric characters and underscores allowed
-    let usernameRegex = /^[a-zA-Z0-9_]{8,32}$/;
+    let usernameRegex = /^[a-zA-Z0-9_]{3,32}$/;
 
     return validateInput(
         field = usernameField,

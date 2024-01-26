@@ -64,10 +64,10 @@ function login($id) {
 
     $uri = $_SESSION['URI'];
 
+    resetSessionValues();
     $_SESSION['loggedin'] = 1;        
     $_SESSION['userid'] = $id;
     $_SESSION['access'] = 1;
-    resetSessionValues();
 
     header('Location: ' . $uri, true, 303);        
 }
@@ -81,14 +81,17 @@ function admin_login($id) {
         $_SESSION['URI'] = 'admin/home';
     }
 
+    echo '<p>' . $_SESSION['URI'] . '</p>';
+    echo 'Location: ' . URL . $_SESSION['URI'];
+
     $uri = $_SESSION['URI'];
 
+    resetSessionValues();
     $_SESSION['loggedin'] = 1;        
     $_SESSION['userid'] = $id;
     $_SESSION['access'] = 2;
-    resetSessionValues();
 
-    header('Location: ' . $uri, true, 303);        
+    header('Location: ' . URL . $uri, true, 303);        
 }
 
 /**
@@ -97,7 +100,7 @@ function admin_login($id) {
 function logout(){
     $_SESSION['loggedin'] = 0;
     $_SESSION['userid'] = -1;    
-    resetSessionValues();    
+    resetSessionValues();
 
     header("Location: " . URL, true, 303);    
 }

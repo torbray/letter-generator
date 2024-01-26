@@ -1,10 +1,9 @@
 <?php
 
-$DBC = null;
-
 define ('URL', 'http://localhost/letter-generator/');
 
 include 'src/checksession.php';
+require_once 'src/controller/dbcontroller.php';
 
 if (isset($_GET['filename']) and !empty($_GET['filename'])) {
     switch ($_GET['filename']) {
