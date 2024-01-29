@@ -28,6 +28,10 @@ function initSession() {
     if (!isset($_SESSION['letter'])) {
         $_SESSION['letter'] = '';
     }
+
+    if (!isset($_SESSION['user'])) {
+        $_SESSION['user'] = 0;
+    }
 }
 
 /**
@@ -35,12 +39,26 @@ function initSession() {
  */
 function checkUser() {
     // Redirect user to login page if not logged in, else dashboard
-    if ($_SESSION['loggedin'] == 1) {
+    if (isLogged()) {
         return true;
     } else {
         // Save current URL for redirect
         $_SESSION['URI'] = $_SERVER['REQUEST_URI'];
         header('Location: ' . URL, TRUE, 303);       
+    }
+}
+
+/**
+ * Function to check if the admin is logged else send to the login page 
+ */
+function checkAdmin() {
+    // Redirect user to login page if not logged in, else dashboard
+    if (isAdmin()) {
+        return true;
+    } else {
+        // Save current URL for redirect
+        $_SESSION['URI'] = $_SERVER['REQUEST_URI'];
+        header('Location: ' . URL . 'admin', TRUE, 303);       
     }
 }
 
@@ -113,6 +131,14 @@ function getCustomerID() {
     }
 }
 
+function getUserID() {
+    if (isset($_SESSION['user'])) {
+        return $_SESSION['user'];
+    } else {
+        return '';
+    }
+}
+
 function isAdmin() {
     return $_SESSION['access'] == 2;
 }
@@ -120,6 +146,7 @@ function isAdmin() {
 function resetSessionValues() {
     $_SESSION['URI'] = '';
     $_SESSION['customer'] = 0; 
+    $_SESSION['user'] = 0; 
     $_SESSION['letter'] = '';
     $_SESSION['access'] = 0;
 }

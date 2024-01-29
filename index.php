@@ -26,12 +26,23 @@ if (isset($_GET['filename']) and !empty($_GET['filename'])) {
             break;
 
         case 'admin/home':
+            require 'src/admin.home.php';
             include 'tpl/admin.home.tpl.php';
             break;
 
         case 'admin/first-login';
             require 'src/admin.first-login.php';
             include 'tpl/admin.first-login.tpl.php';
+            break;
+
+        case 'admin/add-user';
+            require 'src/admin.add-user.php';
+            include 'tpl/admin.add-user.tpl.php';
+            break;
+
+        case 'admin/delete-user';
+            require 'src/admin.delete-user.php';
+            include 'tpl/admin.delete-user.tpl.php';
             break;
 
         case 'logout':

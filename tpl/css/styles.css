@@ -36,6 +36,14 @@ header.top-bar .title-logo {
     font-weight: 400;
 }
 
+header.top-bar .employee-id {
+    align-self: center;
+}
+
+header.top-bar .employee-id span {
+    margin-left: 10px;
+}
+
 header.top-bar .title-button {
     height: fit-content;
 
@@ -63,7 +71,7 @@ body {
 }
 
 .main-body {
-    height: 50vh;
+    min-height: 50vh;
     width: 50vw;
 
     margin: auto;
@@ -77,4 +85,8 @@ body {
 
 h1 {
     color: var(--title-color);
+}
+
+h2 {
+    font-size: 16px;
 }

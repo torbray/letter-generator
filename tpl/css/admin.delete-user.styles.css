@@ -1,0 +1,58 @@
+.user-details-body {
+    width: 80%;
+
+    margin: auto;
+    margin-bottom: 30px;
+}
+
+.user-details {
+    display: table;
+    width: 100%;
+}
+
+.user-details h2 {
+    margin: 20px 0 10px 0;
+}
+
+.user-group {
+    display: table-row;
+
+    margin: 0 20px;
+}
+
+.user-group:nth-of-type(2n) {
+    background-color: #f5f5f5;
+}
+
+.user-group span {
+    display: table-cell;
+    height: 30px;
+
+    vertical-align: middle;
+}
+
+.user-detail-key {
+    padding-right: 50px;
+
+    color: #151515;
+}
+
+.user-detail-value {
+    min-width: 160px;
+
+    font-weight: bold;
+}
+
+button.cta {
+    width: 100px;
+
+    float: right;
+    margin-top: 30px;
+    padding: 10px;
+
+    background-color: var(--title-color);
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+}

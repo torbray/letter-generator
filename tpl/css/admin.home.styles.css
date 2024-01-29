@@ -1,0 +1,68 @@
+.main-body section {
+    margin: 20px 0;
+
+}
+
+section.user-selection {
+    margin-bottom: 50px;
+}
+
+form.user-search,
+form.letter-options {
+    width: calc(100% - 40px);
+    
+    padding: 20px;    
+}
+
+input.user-search,
+select#letter-type {
+    width: 100%;
+
+    padding: 10px;
+    margin: 8px 0;
+    margin-bottom: 20px;
+
+    box-sizing: border-box;
+    font-family: 'Myriad Pro', sans-serif;
+}
+
+input.user-search::-webkit-outer-spin-button,
+input.user-search::-webkit-inner-spin-button {
+   -webkit-appearance: none;
+}
+
+.manage-controls {
+    display: flex;
+    width: 80%;
+
+    justify-content: center;
+    margin: auto;
+}
+
+.manage-controls a {
+    margin: 0 10px;
+}
+
+button.cta {
+    width: 70px;
+
+    float: right;
+    padding: 10px;
+
+    background-color: var(--title-color);
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+}
+
+.search-status {
+    font-size: 13px;
+}
+
+.user-name {
+    margin-left: 20px;
+
+    color: var(--title-color);
+    font-weight: bold;
+}

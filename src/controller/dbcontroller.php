@@ -2,6 +2,8 @@
 
 require_once 'config/config.php';
 
+require_once 'src/class/User.php';
+
 class DBController {
 
     static $DBC;
@@ -133,6 +135,93 @@ class DBController {
         }
 
         return -1;
+    }
+
+    public static function getUser($search) {
+        self::getDBConnection();
+
+        $query = <<<SQL
+        SELECT first_name, last_name, username, job_title.job_title
+        FROM employee
+        INNER JOIN job_title
+        ON employee.job_id = job_title.job_id
+        WHERE employee_id = ?
+        LIMIT 1;
+        SQL;
+
+        // Bind params to query
+        $stmt = mysqli_prepare(self::$DBC, $query);
+        mysqli_stmt_bind_param($stmt,'i', $search);
+        mysqli_stmt_execute($stmt);
+
+        // retrieve mysqli_result object from $stmt
+        $result = mysqli_stmt_get_result($stmt);
+        $rowcount = mysqli_num_rows($result);
+
+        if ($rowcount > 0) {
+            $row = mysqli_fetch_assoc($result);
+            return new User(
+                $row['first_name'],
+                $row['last_name'],
+                $row['username'],
+                $row['job_title']
+            );
+        } else {
+            throw new Exception('User id does not exist ');
+        }
+    }
+
+    /**
+     * Delete a user from the database
+     * 
+     * @return Boolean if user is successfully deleted
+     */
+    public static function deleteUser($id) {
+        self::getDBConnection();
+
+        try {
+            $query = <<<SQL
+                DELETE FROM employee 
+                WHERE employee_id = ?
+                SQL;
+            $stmt = mysqli_prepare(self::$DBC, $query); //prepare the query
+            mysqli_stmt_bind_param($stmt, 'i', $id); 
+            mysqli_stmt_execute($stmt);
+            mysqli_stmt_close($stmt);
+
+            return true;
+        } catch (Exception $e) {
+            // $error = $e -> getMessage();
+            return false;
+        }
+    }
+
+    /**
+     * Return an array of jobs
+     * @return array|null
+     */
+    public static function getJobs() {
+        self::getDBConnection();
+
+        $query = <<<SQL
+        SELECT job_id, job_title, access_level
+        FROM job_title
+        ORDER BY access_level ASC
+        SQL;
+    
+        $result = mysqli_query(self::$DBC, $query);
+
+        if ($result) {
+            // Fetch the results into an associative array
+            $jobs = array();
+            while ($row = mysqli_fetch_assoc($result)) {
+                $jobs[] = $row;
+            }
+
+            return $jobs;
+        } else {
+            return NULL;
+        }
     }
 }
 

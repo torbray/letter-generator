@@ -10,11 +10,6 @@ if (!DBController::ifAdminAccounts()) {
     header('Location: admin/first-login', true, 303);
 }
 
-// If logged in on a consultant account, refer to home
-if (isset($_SESSION['loggedin']) and !empty($_SESSION['loggedin']) and $_SESSION['loggedin'] == 1) {
-    header('Location: home', TRUE, 303);  
-}
-
 // Check if the form is submitted
 if (isset($_POST['submit']) and !empty($_POST['submit']) and ($_POST['submit'] == 'Login')) {
     // Get the values from the form

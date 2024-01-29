@@ -1,5 +1,5 @@
 <?php
-require_once 'src/admin.first-login.php';
+require_once 'src/admin.add-user.php';
 ?>
 
 <!DOCTYPE html>
@@ -7,19 +7,19 @@ require_once 'src/admin.first-login.php';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Account | Admin Portal | ANZ Letter Generator</title>
+    <title>Create User Account | Admin Portal | ANZ Letter Generator</title>
     <link rel="stylesheet" href="../tpl/css/styles.css">
-    <link rel="stylesheet" href="../tpl/css/admin.first-login.styles.css">
+    <link rel="stylesheet" href="../tpl/css/admin.add-user.styles.css">
 
-    <script type="text/javascript" src="../tpl/js/admin.first-login.js" defer></script>
+    <script type="text/javascript" src="../tpl/js/add-user.js" defer></script>
 </head>
 <body>
 <?php
 include "tpl/header.php";
 ?>
     <section class="main-body">
-        <h1>Create first account</h1>
-        <p>Please create the first account for the admin portal.</p>
+        <h1>Create new user account</h1>
+        <p>Add a new user to the system.</p>
         <form action="" onsubmit="return validateForm()" method="post">
             <div class="field-group">
                 <label for="first-name">First Name:</label>
@@ -40,15 +40,34 @@ include "tpl/header.php";
             </div>
 
             <div class="field-group">
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" onkeyup='validatePassword();' required />
+                <label for="password">Temporary Password:</label>
+                <input type="text" id="password" name="password" value="Summer1!" readonly required />
                 <span class="status-message" id="password-status"></span>
             </div>
 
             <div class="field-group">
-                <label for="reenter-password">Re-enter Password:</label>
-                <input type="password" id="reenter-password" name="reenter-password" onkeyup='matchPassword();' required />
-                <span class="status-message" id="reenter-password-status"></span>
+                <label for="job-title">Job Title:</label>
+                <select name="job-title" id="job-title">
+                    <?php
+                    $options = DBController::getJobs();
+
+                    if ($options != null) {
+                        foreach ($options as $key => $option) {
+                            $job_id = $option['job_id'];
+                            $job_title = $option['job_title'];
+                            $access_level = $option['access_level'];
+
+                            $html = <<<END
+                            "<option value="$job_id">
+                                $job_title (Access Level: $access_level)
+                            </option>";
+                            END;
+                            echo $html;
+                        }
+                    }
+                    ?>
+                </select>
+                <span class="status-message" id="username-status"></span>
             </div>
 
             <span class="main-status">

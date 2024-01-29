@@ -19,7 +19,9 @@
     <?php
     if (isLogged()) {
     ?>
-        <p>Employee ID: <?php echo $_SESSION['userid'] ?></p>
+        <p class="employee-id">Employee ID: 
+            <span><?php echo $_SESSION['userid'] ?></span>
+        </p>
         <button class="title-button" onclick="window.location.href='logout';">Log Out</button>
     <?php
     }

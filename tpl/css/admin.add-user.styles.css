@@ -1,0 +1,39 @@
+form {
+    width: calc(100% - 40px);
+    
+    padding: 20px;    
+}
+
+.field-group {
+    margin-bottom: 20px;
+}
+
+input, select {
+    width: 100%;
+
+    padding: 10px;
+    margin: 8px 0;
+
+    box-sizing: border-box;
+    font-family: 'Myriad Pro', sans-serif;
+}
+
+input:disabled {
+    background-color: white;
+}
+
+button.primary-cta {
+    float: right;
+    padding: 10px;
+
+    background-color: var(--title-color);
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+}
+
+.status-message {
+    color: red;
+    font-size: 13px;
+}
