@@ -105,14 +105,16 @@ class DBController {
      * 
      * @return Boolean if user login is successful
      */
-    public static function verifyLogin($username, $password) {
+    public static function verifyLogin($username, $password, $admin = false) {
         self::getDBConnection();
 
         // Prepare query
         // Hash column is hashed
         $query = <<<SQL
-            SELECT employee_id, password
+            SELECT employee_id, password, job_title.access_level
             FROM employee
+            INNER JOIN job_title
+            ON employee.job_id = job_title.job_id
             WHERE username = ?
             LIMIT 1;
             SQL;
@@ -128,6 +130,11 @@ class DBController {
 
         if ($rowcount > 0) {
             $row = mysqli_fetch_assoc($result);
+
+            // If verifying for admin and access level is not 2, fail the verification
+            if ($admin && $row['access_level'] != 2) {
+                return -1;
+            }
 
             if (password_verify($password, $row['password'])) {
                 return $row['employee_id'];

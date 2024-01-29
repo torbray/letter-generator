@@ -58,6 +58,15 @@ if (isset($_POST['submit']) and !empty($_POST['submit']) and ($_POST['submit'] =
         $error++; //bump the error flag
         $error_message .= 'Invalid password '; //append error message 
     }
+
+    // #5 job id
+    if (isset($_POST['job-title']) and !empty($_POST['job-title'])) {
+        // TODO: Validate password
+        $job_id = DBController::cleanInput($_POST['job-title']); 
+    } else {
+        $error++; //bump the error flag
+        $error_message .= 'Invalid job title '; //append error message 
+    }
     
     // If validation errors, cancel post
     if ($error == 0) {
@@ -66,11 +75,11 @@ if (isset($_POST['submit']) and !empty($_POST['submit']) and ($_POST['submit'] =
         // Add admin to database
         $query = <<<SQL
         INSERT INTO employee (first_name, last_name, username, password, job_id, change_pwd) 
-        VALUES (?, ?, ?, ?, 3, 'Y');
+        VALUES (?, ?, ?, ?, ?, 'Y');
         SQL;
 
         $stmt = mysqli_prepare(DBController::$DBC, $query); //prepare the query
-        mysqli_stmt_bind_param($stmt,'ssss', $first_name, $last_name, $username, $hashed_password); 
+        mysqli_stmt_bind_param($stmt,'ssssi', $first_name, $last_name, $username, $hashed_password, $job_id); 
         mysqli_stmt_execute($stmt);
         mysqli_stmt_close($stmt);
 

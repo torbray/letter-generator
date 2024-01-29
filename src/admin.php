@@ -25,7 +25,7 @@ if (isset($_POST['submit']) and !empty($_POST['submit']) and ($_POST['submit'] =
 
     // Add your authentication logic here (e.g., check against a database)
     // For this example, let's just check if the username and password are not empty
-    $login_id = DBController::verifyLogin($username, $password);
+    $login_id = DBController::verifyLogin($username, $password, $admin = true);
 
     if ($login_id > 0) {
         admin_login($login_id);
