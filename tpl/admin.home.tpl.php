@@ -67,7 +67,9 @@ include "tpl/header.php";
             <div class="manage-controls">
                 <a href="add-user">Add New User</a>
                 <?php 
-                if (getUserID() > 0) {
+                $userid = getUserID();
+
+                if ($userid > 0 && $userid != $_SESSION['userid']) {
                 ?>
                     <a href="delete-user">Delete User</a>
                 <?php

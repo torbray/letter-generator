@@ -230,6 +230,46 @@ class DBController {
             return NULL;
         }
     }
+
+    public static function getCustomer($search) {
+        // Database search
+        self::getDBConnection();
+
+        // If customer
+        $query = <<<SQL
+        SELECT first_name, last_name, address, title.title_desc
+        FROM customer
+        INNER JOIN title 
+        ON customer.title_id = title.title_id
+        WHERE customer_id = ?
+        LIMIT 1;
+        SQL;
+
+        // Bind params to query
+        $stmt = mysqli_prepare(self::$DBC, $query);
+        mysqli_stmt_bind_param($stmt,'i', $search);
+        mysqli_stmt_execute($stmt);
+
+        // retrieve mysqli_result object from $stmt
+        $result = mysqli_stmt_get_result($stmt);
+        $rowcount = mysqli_num_rows($result); 
+
+        if ($rowcount > 0) {
+            $row = mysqli_fetch_assoc($result);
+
+            // assign variables
+            $customer = new Customer(
+                $row['first_name'],
+                $row['last_name'],
+                $row['address'],
+                $row['title_desc']
+            );
+
+            return $customer;
+        } else {
+            return null;
+        }
+    }
 }
 
 ?>

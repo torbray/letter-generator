@@ -37,7 +37,7 @@ if (isset($_POST['submit']) and !empty($_POST['submit'])) {
             $_SESSION['user'] = $search;
         } else {
             $search_error++;
-            $search_error_msg .= 'user id does not exist ';
+            $search_error_msg .= 'User ID does not exist.';
         }
     }
 }

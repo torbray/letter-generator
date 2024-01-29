@@ -54,46 +54,4 @@ foreach ($getvar as $variable) {
     }
 }
 
-// foreach ($letter_tree as $key => $value) {
-//     echo $key;
-// }
-
-// // Database search
-// if (!DBController::$is_connected) {
-//     $DBC = DBController::getDBConnection();
-// }
-
-// // If customer
-// if (array_key_exists("customer", $letter_tree)) {
-//     $query = <<<SQL
-//     SELECT first_name, last_name, address, title.title_desc
-//     FROM customer
-//     INNER JOIN title 
-//     ON customer.title_id = title.title_id
-//     WHERE customer_id = ?
-//     LIMIT 1;
-//     SQL;
-
-//     // Bind params to query
-//     $stmt = mysqli_prepare($DBC, $query);
-//     mysqli_stmt_bind_param($stmt,'i', $_SESSION['customer']);
-//     mysqli_stmt_execute($stmt);
-
-//     // retrieve mysqli_result object from $stmt
-//     $result = mysqli_stmt_get_result($stmt);
-//     $rowcount = mysqli_num_rows($result); 
-
-//     if ($rowcount > 0) {
-//         $row = mysqli_fetch_assoc($result);
-
-//         // assign variables
-//         $customer = new Customer(
-//             $row['first_name'],
-//             $row['last_name'],
-//             $row['address'],
-//             $row['title.title_id']
-//         );
-//     }    
-// }
-
 ?>

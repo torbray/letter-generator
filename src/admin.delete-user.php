@@ -1,5 +1,9 @@
 <?php
 
+if ($_SESSION['user'] == $_SESSION['userid']) {
+    header('Location: home', true, 303);
+}
+
 checkAdmin();
 
 require_once 'src/controller/dbcontroller.php';

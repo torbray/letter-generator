@@ -43,11 +43,24 @@
     font-weight: bold;
 }
 
+.user-delete {
+    width: 100%;
+
+    display: flex;
+
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+.button-back {
+    display: block;
+
+    align-self: center;
+}
+
 button.cta {
     width: 100px;
 
-    float: right;
-    margin-top: 30px;
     padding: 10px;
 
     background-color: var(--title-color);

@@ -51,6 +51,7 @@ include "tpl/header.php";
             if ($user != null) {
             ?>
             <form class="user-delete" action="" method="post">
+                <a class="button-back" href="home">Back</a>
                 <button class="cta" id="post-search" type="submit" name="submit" value="Delete">Delete</button>
             </form>
             <?php

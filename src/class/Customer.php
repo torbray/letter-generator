@@ -15,7 +15,15 @@ class Customer {
     }
 
     public function getFullName() {
-        return self::$first_name . " " . self::$last_name;
+        return $this -> first_name . " " . $this -> last_name;
+    }
+
+    public function getFormalName() {
+        return $this -> title . " " . $this -> last_name;
+    }
+
+    public function getAddress() {
+        return $this -> address;
     }
 
 }
