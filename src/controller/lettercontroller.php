@@ -77,19 +77,6 @@ class LetterController {
 
     }
 
-    // Function to read and decode JSON content
-    public static function readJsonFile($filename) {
-        $json_content = file_get_contents($filename);
-        $decoded_json = json_decode($json_content, true);
-    
-        // Check if decoding was successful
-        if ($decoded_json === null && json_last_error() !== JSON_ERROR_NONE) {
-            die("Error decoding JSON in $filename: " . json_last_error_msg());
-        }
-    
-        return $decoded_json;
-    }
-
     public static function convert_to_short_key($input) {
         // $parts = explode('-', $input);
     

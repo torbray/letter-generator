@@ -298,7 +298,7 @@ class DBController {
 
         // If customer
         $query = <<<SQL
-            SELECT first_name, last_name, address, title.title_desc
+            SELECT first_name, last_name, address, title.title_desc, dob
             FROM customer
             INNER JOIN title 
             ON customer.title_id = title.title_id
@@ -484,6 +484,37 @@ class DBController {
 
         if ($rowcount > 0) {
             return $search;
+        } else {
+            throw new Exception('Customer id does not exist ');
+        }
+    }
+
+    public static function getPassword($search) {
+        // Connect to database here
+        DBController::getDBConnection();
+
+        $query = <<<SQL
+            SELECT dob
+            FROM customer
+            WHERE customer_id = ?
+            LIMIT 1;
+            SQL;
+    
+        // Bind params to query
+        $stmt = mysqli_prepare(DBController::$DBC, $query);
+        mysqli_stmt_bind_param($stmt,'i', $search);
+        mysqli_stmt_execute($stmt);
+    
+        // retrieve mysqli_result object from $stmt
+        $result = mysqli_stmt_get_result($stmt);
+        $rowcount = mysqli_num_rows($result);
+
+        if ($rowcount > 0) {
+            $row = mysqli_fetch_assoc($result);
+            $dob = new DateTime($row['dob']);
+            $formatted_string = $dob -> format('dmY');
+
+            return $formatted_string;
         } else {
             throw new Exception('Customer id does not exist ');
         }

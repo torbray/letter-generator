@@ -7,10 +7,20 @@ use PhpOffice\PhpWord\TemplateProcessor;
 
 class LetterTemplate extends TemplateProcessor {
 
-    public function generatePDF($values, $password) {
+    public function generatePDF($values) {
+
+        // Init variable
+        $password = null;
+
+        // Set date value
+        $this -> setValue("date", date("d/m/Y"));
         
+        // Word template replacement for each key/ value pair
         foreach ($values as $key => $value) {
             if ($key == "submit") {
+                continue;
+            } else if ($key == "letter-password") {
+                $password = $value;
                 continue;
             }
             // Replace key - with .
@@ -21,13 +31,14 @@ class LetterTemplate extends TemplateProcessor {
             $this -> setValue($desc, $value);
         }
         
+        // Saves temporary Word .docx file in var/cache
         $filename = "test template result";
         $this -> saveAs('var/cache/' . $filename . '.docx');
         
         \PhpOffice\PhpWord\Settings::setPdfRendererName(\PhpOffice\PhpWord\Settings::PDF_RENDERER_MPDF);
         \PhpOffice\PhpWord\Settings::setPdfRendererPath('vendor/mpdf/mpdf');
         
-        // Save locally
+        // Saves temporary unencrypted .pdf file in var/cache
         $phpWord = IOFactory::load('var/cache/' . $filename . '.docx');
         $writer = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'PDF');
         $writer -> save('var/cache/' . $filename . '.pdf');
@@ -39,9 +50,10 @@ class LetterTemplate extends TemplateProcessor {
         // Create new PDF document.
         $pdf = new TCPDI(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
         
+        // Encrypted PDF document
         $pdf -> SetProtection(
             ['print', 'modify', 'copy', 'annot-forms', 'fill-forms', 'extract', 'assemble', 'print-high'],
-            $password, 'password2', 3
+            $password, $password, 3
         );
         
         // Add a page from a PDF by file path.
@@ -63,7 +75,8 @@ class LetterTemplate extends TemplateProcessor {
         header('Content-Length: ' . filesize('var/cache/output.pdf'));
         
         $file = 'var/cache/output.pdf';
-        // $file -> save('php://output', 'PDF');
+        
+        // Send for download
         readfile($file);
         
     }

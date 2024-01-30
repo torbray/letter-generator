@@ -4,14 +4,8 @@ checkUser();
 
 require_once 'vendor/autoload.php';
 
-require_once 'src/controller/dbcontroller.php';
 require_once 'src/controller/lettercontroller.php';
 
-require_once 'src/class/Customer.php';
-$customer;
-
-// require_once 'src/class/Account.php';
-$account;
 
 if (!isset($_SESSION['letter']) or empty($_SESSION['letter'])) {
     header('Location: home', true, 303);
@@ -27,7 +21,9 @@ $template = new LetterTemplate($letter_path);
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['submit']) and !empty($_POST['submit'] and $_POST['submit'] == 'review')) {
         // Debugging purposes
-        $template -> generatePDF($_POST, "password");
+        // var_dump($_POST);
+
+        $template -> generatePDF($_POST);
         // echo "Review button has been clicked";
     }
 }
@@ -44,6 +40,10 @@ foreach ($getvar as $variable) {
     $current_array = &$letter_tree;
 
     foreach ($keys as $key) {
+        if ($key == "date") {
+            continue;
+        }
+
         // Subvalues
         if (!isset($current_array[$key])) {
             $current_array[$key] = [];

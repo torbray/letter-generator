@@ -95,7 +95,7 @@ if (isset($_POST['submit']) and !empty($_POST['submit']) and ($_POST['submit'] =
 
         if ($rowcount > 0) {
             $row = mysqli_fetch_assoc($result);
-            admin_login($row['employee_id']);
+            admin_login($row['employee_id'], false);
         } else {
             $error_msg .= 'Error: Please contact an administrator for further information. ';
         }

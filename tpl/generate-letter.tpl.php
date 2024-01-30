@@ -11,6 +11,8 @@ require_once 'src/generate-letter.php';
     <title>Generate Letter | ANZ Letter Generator</title>
     <link rel="stylesheet" href="tpl/css/styles.css">
     <link rel="stylesheet" href="tpl/css/generate-letter.styles.css">
+
+    <script src="tpl/js/generate-letter.js" type="text/javascript" defer></script>
 </head>
 <body>
 <?php
@@ -25,7 +27,9 @@ include "tpl/header.php";
         </p>
 
         <section class="letter-values">
-            <form action="" method="post" class="letters">
+            <form action="" method="post" class="letters" onsubmit="return confirmLetter()">
+                <input id="letter-password" name="letter-password" value="<?php echo DBController::getPassword($_SESSION['customer']); ?>" readonly required />
+
                 <?php                
                 /** Letter template variables
                  * All variables are generated dynamically based on the Word
