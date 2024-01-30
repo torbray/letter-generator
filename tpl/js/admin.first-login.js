@@ -59,7 +59,7 @@ function validateUsername(send_status = false) {
         status = usernameStatus,
         send_status = send_status,
         regex = usernameRegex,
-        error = "Please enter a username between 8 - 32 characters with only letters, numbers and underscores."
+        error = "Please enter a username between 3 - 32 characters with only letters, numbers and underscores."
     )    
 }
 

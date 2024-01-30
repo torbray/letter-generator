@@ -59,7 +59,7 @@ function validateUsername(send_status = false) {
         status = usernameStatus,
         send_status = send_status,
         regex = usernameRegex,
-        error = "Please enter a username between 8 - 32 characters with only letters, numbers and underscores."
+        error = "Please enter a username between 3 - 32 characters with only letters, numbers and underscores."
     )    
 }
 
@@ -67,11 +67,17 @@ function validateUsername(send_status = false) {
  * Validates form on submit
  */
 function validateForm() {
-    /** Can simplify to a one-liner, but an expanded if/else tree is more comprehensible and easier
-     *  to add additional validations
-     */ 
     if (validateFirstName(true) && validateLastName(true) && validateUsername(true)) {
-        return true;
+        let firstName = document.getElementById("first-name").value;
+        let lastName = document.getElementById("last-name").value;
+
+        let question = `Are you sure you want to add ${firstName} ${lastName} to the system?`;
+
+        let answer = window.confirm(question);
+
+        // Return Yes or No confirmation dialog - fail if user clicks no
+
+        return answer;
     } else {
         return false;
     }

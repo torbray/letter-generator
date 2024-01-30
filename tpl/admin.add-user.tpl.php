@@ -11,7 +11,7 @@ require_once 'src/admin.add-user.php';
     <link rel="stylesheet" href="../tpl/css/styles.css">
     <link rel="stylesheet" href="../tpl/css/admin.add-user.styles.css">
 
-    <script type="text/javascript" src="../tpl/js/add-user.js" defer></script>
+    <script type="text/javascript" src="../tpl/js/admin.add-user.js" defer></script>
 </head>
 <body>
 <?php
@@ -77,7 +77,10 @@ include "tpl/header.php";
                 }
                 ?>
             </span>
-            <button class="primary-cta" type="submit" name="submit" value="Create">Create</button>
+            <div class="button-controls">
+                <a class="button-back" href="home">Back</a>
+                <button class="primary-cta" type="submit" name="submit" value="Create">Create</button>
+            </div>
         </form>
     </section>
 </body>

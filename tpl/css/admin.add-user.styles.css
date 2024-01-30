@@ -22,6 +22,18 @@ input:disabled {
     background-color: white;
 }
 
+.button-controls {
+    display: flex;
+
+    justify-content: space-between;
+}
+
+.button-back {
+    display: block;
+
+    align-self: center;
+}
+
 button.primary-cta {
     float: right;
     padding: 10px;

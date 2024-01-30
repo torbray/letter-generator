@@ -52,19 +52,16 @@ class DBController {
     
         $stmt = mysqli_prepare(self::$DBC, $query);
         mysqli_stmt_bind_param($stmt, 's', $check);
+        mysqli_stmt_execute($stmt);
     
         $result = mysqli_stmt_get_result($stmt);
-        if ($result) {
-            $rowcount = mysqli_num_rows($result); 
+        $rowcount = mysqli_num_rows($result);
 
-            if ($rowcount > 0) {
-                $row = mysqli_fetch_assoc($result);
-                return $row['username'];
-            } else {
-                return NULL;
-            }
+        // If username found, return true
+        if ($rowcount > 0) {
+            return true;
         } else {
-            return NULL;
+            return false;
         }
     }
 

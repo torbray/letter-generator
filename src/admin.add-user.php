@@ -38,10 +38,11 @@ if (isset($_POST['submit']) and !empty($_POST['submit']) and ($_POST['submit'] =
 
         // Unique username
         // TODO: Validate username
-        if (DBController::getUsername($username) != NULL) {
+        if (DBController::getUsername($username)) {
             $error++; //bump the error flag
             $error_message .= 'Usernames must be unique, please try a different username. ';
         }
+        
     } else {
         $error++; //bump the error flag
         $error_message .= 'Invalid username '; //append error message

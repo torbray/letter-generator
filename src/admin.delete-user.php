@@ -17,6 +17,7 @@ $search_error_msg = '';
 $user = null;
 
 $search = getUserID();
+$deleted_user = 0;
 
 // Connect to database here
 DBController::getDBConnection();
@@ -24,6 +25,9 @@ DBController::getDBConnection();
 if (isset($_POST['submit']) and !empty($_POST['submit']) and ($_POST['submit'] == 'Delete')) {
     DBController::deleteUser($search);
     $search_error = -1;
+    
+    $deleted_user = $_SESSION['user'];
+    $_SESSION['user'] = 0;
 } else {
     try {
         $user = DBController::getUser($search);
