@@ -36,6 +36,10 @@ function initSession() {
     if (!isset($_SESSION['account'])) {
         $_SESSION['account'] = 0;
     }
+
+    if (!isset($_SESSION['change-password'])) {
+        $_SESSION['change-password'] = true;
+    }
 }
 
 /**
@@ -78,7 +82,7 @@ function isLogged() {
 /**
  * Login function
  */
-function login($id) {
+function login($id, $change_password) {
     // Simple redirect if a user tries to access a page they have not logged in to
     if (!$_SESSION['loggedin'] == 0 or empty($_SESSION['URI'])) {
         $_SESSION['URI'] = 'home';
@@ -90,14 +94,19 @@ function login($id) {
     $_SESSION['loggedin'] = 1;        
     $_SESSION['userid'] = $id;
     $_SESSION['access'] = 1;
+    $_SESSION['change-password'] = $change_password;
 
-    header('Location: ' . $uri, true, 303);        
+    if (isChangingPassword()) {
+        header('Location: change-password', true, 303);
+    } else {
+        header('Location: ' . $uri, true, 303);
+    }
 }
 
 /**
  * Admin Login function
  */
-function admin_login($id) {
+function admin_login($id, $change_password) {
     // Simple redirect if a user tries to access a page they have not logged in to
     if (!$_SESSION['loggedin'] == 0 or empty($_SESSION['URI'])) {
         $_SESSION['URI'] = 'admin/home';
@@ -112,8 +121,13 @@ function admin_login($id) {
     $_SESSION['loggedin'] = 1;        
     $_SESSION['userid'] = $id;
     $_SESSION['access'] = 2;
+    $_SESSION['change-password'] = $change_password;
 
-    header('Location: ' . URL . $uri, true, 303);        
+    if (isChangingPassword()) {
+        header('Location: change-password', true, 303);
+    } else {
+        header('Location: ' . URL . $uri, true, 303);
+    }     
 }
 
 /**
@@ -143,12 +157,24 @@ function getUserID() {
     }
 }
 
+function getEmployeeID() {
+    if (isset($_SESSION['userid'])) {
+        return $_SESSION['userid'];
+    } else {
+        return '';
+    }
+}
+
 function getAccountID() {
     if (isset($_SESSION['account'])) {
         return $_SESSION['account'];
     } else {
         return '';
     }
+}
+
+function isChangingPassword() {
+    return $_SESSION['change-password'];
 }
 
 function isAdmin() {
@@ -162,6 +188,7 @@ function resetSessionValues() {
     $_SESSION['letter'] = '';
     $_SESSION['access'] = 0;
     $_SESSION['account'] = 0;
+    $_SESSION['change-password'] = false;
 }
 
 ?>

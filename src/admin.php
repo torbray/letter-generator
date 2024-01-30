@@ -28,7 +28,7 @@ if (isset($_POST['submit']) and !empty($_POST['submit']) and ($_POST['submit'] =
     $login_id = DBController::verifyLogin($username, $password, $admin = true);
 
     if ($login_id > 0) {
-        admin_login($login_id);
+        admin_login($login_id, DBController::mustChangePassword($login_id));
         die();
     } else {
         $login_error = true;

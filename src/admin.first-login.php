@@ -1,7 +1,5 @@
 <?php
 
-require_once 'src/controller/dbcontroller.php';
-
 if (DBController::ifAdminAccounts()) {
     header('Location: admin', true, 303);
 }

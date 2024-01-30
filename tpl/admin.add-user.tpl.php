@@ -7,7 +7,7 @@ require_once 'src/admin.add-user.php';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create User Account | Admin Portal | ANZ Letter Generator</title>
+    <title>Create User Account | Admin | ANZ Letter Generator</title>
     <link rel="stylesheet" href="../tpl/css/styles.css">
     <link rel="stylesheet" href="../tpl/css/admin.add-user.styles.css">
 

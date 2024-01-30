@@ -65,6 +65,35 @@ class DBController {
         }
     }
 
+    /**
+     * Returns a hash or null
+     * @return String|null
+     */
+    public static function getHash($check) {
+        self::getDBConnection();
+
+        $query = <<<SQL
+            SELECT password
+            FROM employee
+            WHERE employee_id = ?;
+            SQL;
+    
+        $stmt = mysqli_prepare(self::$DBC, $query);
+        mysqli_stmt_bind_param($stmt, 'i', $check);
+        mysqli_stmt_execute($stmt);
+    
+        $result = mysqli_stmt_get_result($stmt);
+        $rowcount = mysqli_num_rows($result);
+
+        // If username found, return true
+        if ($rowcount > 0) {
+            $row = mysqli_fetch_assoc($result);
+            return $row["password"];
+        } else {
+            return null;
+        }
+    }
+
     public static function ifAdminAccounts() {
         self::getDBConnection();
 
@@ -169,6 +198,42 @@ class DBController {
                 $row['username'],
                 $row['job_title']
             );
+        } else {
+            throw new Exception('User id does not exist ');
+        }
+    }
+
+    /** 
+     * Confirm if password needs to change
+     * @return bool If change password
+     */
+    public static function mustChangePassword($search) {
+        self::getDBConnection();
+
+        $query = <<<SQL
+            SELECT change_pwd
+            FROM employee
+            WHERE employee_id = ?
+            LIMIT 1;
+            SQL;
+
+        // Bind params to query
+        $stmt = mysqli_prepare(self::$DBC, $query);
+        mysqli_stmt_bind_param($stmt,'i', $search);
+        mysqli_stmt_execute($stmt);
+
+        // retrieve mysqli_result object from $stmt
+        $result = mysqli_stmt_get_result($stmt);
+        $rowcount = mysqli_num_rows($result);
+
+        if ($rowcount > 0) {
+            $row = mysqli_fetch_assoc($result);
+
+            if ($row['change_pwd'] == 'Y') {
+                return true;
+            } else {
+                return false;
+            }
         } else {
             throw new Exception('User id does not exist ');
         }

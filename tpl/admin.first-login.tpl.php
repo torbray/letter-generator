@@ -7,7 +7,7 @@ require_once 'src/admin.first-login.php';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Account | Admin Portal | ANZ Letter Generator</title>
+    <title>Create Account | Admin | ANZ Letter Generator</title>
     <link rel="stylesheet" href="../tpl/css/styles.css">
     <link rel="stylesheet" href="../tpl/css/admin.first-login.styles.css">
 

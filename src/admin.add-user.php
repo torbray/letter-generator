@@ -2,8 +2,6 @@
 
 checkAdmin();
 
-require_once 'src/controller/dbcontroller.php';
-
 // Initialize database
 DBController::getDBConnection();
 

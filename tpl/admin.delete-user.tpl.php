@@ -7,7 +7,7 @@ require_once 'src/admin.delete-user.php';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Homepage | Admin | ANZ Letter Generator</title>
+    <title>Delete User | Admin | ANZ Letter Generator</title>
     <link rel="stylesheet" href="../tpl/css/styles.css">
     <link rel="stylesheet" href="../tpl/css/admin.delete-user.styles.css">
 

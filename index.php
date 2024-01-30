@@ -8,7 +8,6 @@ require_once 'src/controller/dbcontroller.php';
 if (isset($_GET['filename']) and !empty($_GET['filename'])) {
     switch ($_GET['filename']) {
         case 'home':
-            require 'src/home.php';
             include 'tpl/home.tpl.php';
             break;
 
@@ -16,32 +15,27 @@ if (isset($_GET['filename']) and !empty($_GET['filename'])) {
             include 'tpl/generate-letter.tpl.php';
             break;
 
-        case 'review';
-            include 'tpl/review.tpl.php';
+        case 'change-password';
+            include 'tpl/change-password.tpl.php';
             break;
 
         case 'admin':
-            require 'src/admin.php';
             include 'tpl/admin.tpl.php';
             break;
 
         case 'admin/home':
-            require 'src/admin.home.php';
             include 'tpl/admin.home.tpl.php';
             break;
 
         case 'admin/first-login';
-            require 'src/admin.first-login.php';
             include 'tpl/admin.first-login.tpl.php';
             break;
 
         case 'admin/add-user';
-            require 'src/admin.add-user.php';
             include 'tpl/admin.add-user.tpl.php';
             break;
 
         case 'admin/delete-user';
-            require 'src/admin.delete-user.php';
             include 'tpl/admin.delete-user.tpl.php';
             break;
 
@@ -52,7 +46,6 @@ if (isset($_GET['filename']) and !empty($_GET['filename'])) {
 
         default:
             if ($_GET['filename'] == '') {
-                require 'src/login.php';
                 include 'tpl/login.tpl.php';
             } else {
                 header('HTTP/1.0 404 Not Found');
@@ -61,7 +54,6 @@ if (isset($_GET['filename']) and !empty($_GET['filename'])) {
             break;
     }
 } else {
-    require 'src/login.php';
     include 'tpl/login.tpl.php';
 }
 

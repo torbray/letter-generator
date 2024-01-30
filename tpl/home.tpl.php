@@ -1,3 +1,7 @@
+<?php
+require_once 'src/home.php';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
