@@ -2,6 +2,7 @@
 
 checkUser();
 
+require_once 'src/controller/controller.php';
 require_once 'src/controller/dbcontroller.php';
 
 // Declaring error variables
@@ -12,36 +13,16 @@ $search_error_msg = '';
 if (isset($_POST['submit']) and !empty($_POST['submit'])) {
     if ($_POST['submit'] == 'Search') {
         // Get the values from the form
-        $search = $_POST["customer-id"];
-
-        // Connect to database here
-        DBController::getDBConnection();
-        
-        $query = <<<SQL
-            SELECT customer_id
-            FROM customer
-            WHERE customer_id = ?
-            LIMIT 1;
-            SQL;
-    
-        // Bind params to query
-        $stmt = mysqli_prepare(DBController::$DBC, $query);
-        mysqli_stmt_bind_param($stmt,'i', $search);
-        mysqli_stmt_execute($stmt);
-    
-        // retrieve mysqli_result object from $stmt
-        $result = mysqli_stmt_get_result($stmt);
-        $rowcount = mysqli_num_rows($result);
-
-        if ($rowcount > 0) {
-            $_SESSION['customer'] = $search;
-        } else {
+        try {
+            $_SESSION['customer'] = DBController::findCustomer($_POST['customer-id']);
+        } catch (Exception $e) {
             $search_error++;
-            $search_error_msg .= 'Customer id does not exist ';
+            $search_error_msg = $e -> getMessage();
         }
-
     } else if ($_POST['submit'] == 'Load') {
         if (isset($_SESSION['customer']) and !empty($_SESSION['customer'])) {
+
+            $_SESSION['account'] = $_POST["account-id"];
             // Get the values from the form
             $_SESSION['letter'] = $_POST["letter-type"];
 

@@ -32,6 +32,10 @@ function initSession() {
     if (!isset($_SESSION['user'])) {
         $_SESSION['user'] = 0;
     }
+
+    if (!isset($_SESSION['account'])) {
+        $_SESSION['account'] = 0;
+    }
 }
 
 /**
@@ -139,6 +143,14 @@ function getUserID() {
     }
 }
 
+function getAccountID() {
+    if (isset($_SESSION['account'])) {
+        return $_SESSION['account'];
+    } else {
+        return '';
+    }
+}
+
 function isAdmin() {
     return $_SESSION['access'] == 2;
 }
@@ -149,6 +161,7 @@ function resetSessionValues() {
     $_SESSION['user'] = 0; 
     $_SESSION['letter'] = '';
     $_SESSION['access'] = 0;
+    $_SESSION['account'] = 0;
 }
 
 ?>

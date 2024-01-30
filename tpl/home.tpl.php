@@ -15,45 +15,27 @@ include "tpl/header.php";
         <h1>Homepage</h1>
 
         <section class="customer-selection">
-            <form class="customer-search" action="" method="post">
+            <form class="form-search" action="" method="post">
                 <label for="customer-id">Customer ID:</label>
-                <input type="number" class="customer-search" type="text" id="customer-id" name="customer-id" value="<?php echo getCustomerID(); ?>" required>
+                <input type="number" class="form-search" type="text" id="customer-id" name="customer-id" value="<?php echo getCustomerID(); ?>" required>
 
                 <?php
                 if ($search_error > 0) {
                     echo '<p class="search-status">' . $search_error_msg . '</p>';
                 } else if (isset($_SESSION['customer']) and !empty($_SESSION['customer'] and $_SESSION['customer'] > 0)) {
-                    DBController::getDBConnection();
+                    // Get customer
+                    $customer = DBController::getCustomer($_SESSION['customer']);
 
-                    $query = <<<SQL
-                    SELECT first_name, last_name
-                    FROM customer
-                    WHERE customer_id = ?
-                    LIMIT 1;
-                    SQL;
-            
-                    // Bind params to query
-                    $stmt = mysqli_prepare(DBController::$DBC, $query);
-                    mysqli_stmt_bind_param($stmt,'i', $_SESSION['customer']);
-                    mysqli_stmt_execute($stmt);
-                
-                    // retrieve mysqli_result object from $stmt
-                    $result = mysqli_stmt_get_result($stmt);
-                    $rowcount = mysqli_num_rows($result); 
+                    // assign variables
+                    $first_name = $customer -> first_name;
+                    $last_name = $customer -> last_name;
 
-                    if ($rowcount > 0) {
-                        $row = mysqli_fetch_assoc($result);
-
-                        // assign variables
-                        $first_name = $row['first_name'];
-                        $last_name = $row['last_name'];
-
-                        echo <<<END
-                        <p class="search-status">Loaded:
-                            <span class="customer-name">$first_name $last_name</span>
-                        </p>                        
-                        END;
-                    }                    
+                    // Confirmation via status that customer is loaded
+                    echo <<<END
+                    <p class="search-status">Loaded:
+                        <span class="customer-name">$first_name $last_name</span>
+                    </p>                        
+                    END;                 
                 }
                 ?>
 
@@ -66,9 +48,41 @@ include "tpl/header.php";
         ?>
 
         <section class="letter-types">
-            <h2>Letter Types</h2>
-
             <form class="letter-options" action="" method="post">
+                <label for="account-id">Select an Account:</label>
+                <?php
+                    $options = DBController::getAccountsFromCustomer($_SESSION['customer']);
+
+                    // Disable select if no accounts belonging to customer
+                    if ($options != null) {
+                ?>
+                <select name="account-id" id="account-id" <?php echo $is_disabled; ?>>
+                    <?php
+                        foreach ($options as $account) {
+                            $account_id = $account -> account_id;
+                            $account_number = $account -> getNumber();
+                            $account_type = $account -> getType();
+
+                            $html = <<<END
+                            "<option value="$account_id">
+                                $account_type ($account_number)
+                            </option>";
+                            END;
+                            echo $html;
+                        }
+                    ?>
+                </select>
+                <?php
+                    } else {
+                ?>
+                <p class="account-none-displayed">No accounts to display.</p>
+                <?php
+                    }
+
+                ?>
+
+                <h2>Letter Types</h2>
+
                 <label for="letter-type">Choose a Letter Template:</label>
                 <select id="letter-type" name="letter-type">
                 <?php 

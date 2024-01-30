@@ -16,13 +16,28 @@
         echo " - Admin";
     }
     ?></a>
-    <?php
-    if (isLogged()) {
-    ?>
-        <p class="employee-id">Employee ID: 
-            <span><?php echo $_SESSION['userid'] ?></span>
+    <div class="header-display">
+        <?php
+        if (isLogged()) {
+        ?>
+        <p class="header-label">Employee ID: 
+            <span class="header-value"><?php echo $_SESSION['userid'] ?></span>
         </p>
-        <button class="title-button" onclick="window.location.href='logout';">Log Out</button>
+        <?php
+        }
+
+        if ($_SESSION['customer'] > 0) {
+        ?>
+        <p class="header-label">Customer ID: 
+            <span class="header-value"><?php echo $_SESSION['customer'] ?></span>
+        </p>
+        <?php
+        }
+        
+        if (isLogged()) {
+        ?>
+    </div>
+    <button class="title-button" onclick="window.location.href='logout';">Log Out</button>
     <?php
     }
     ?>

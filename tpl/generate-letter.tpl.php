@@ -25,10 +25,6 @@ include "tpl/header.php";
         </p>
 
         <section class="letter-values">
-            <?php
-            // echo $customer -> getFullName();
-            ?>
-
             <form action="" method="post" class="letters">
                 <?php                
                 /** Letter template variables
@@ -59,7 +55,10 @@ include "tpl/header.php";
                 
                 ?>
 
-                <button class="cta" id="post-load" type="submit" name="submit" value="review">Review</button>
+                <div class="letter-controls">
+                    <a class="button-back" href="home">Back</a>
+                    <button class="cta" id="post-load" type="submit" name="submit" value="review">Review</button>
+                </div>
             </form>
         </section>
     </section>

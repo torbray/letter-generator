@@ -43,11 +43,21 @@
     font-family: 'Myriad Pro', sans-serif;
 }
 
+.letter-controls {
+    display: flex;
+    margin-top: 30px;
+
+    justify-content: space-between;
+}
+
+.button-back {
+    align-self: center;
+}
+
 button.cta {
     width: 100px;
 
     float: right;
-    margin-top: 30px;
     padding: 10px;
 
     background-color: var(--title-color);

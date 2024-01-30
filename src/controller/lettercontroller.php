@@ -10,75 +10,55 @@ class LetterController {
 
     public static function generateInput(...$values) {
         self::$customer = DBController::getCustomer($_SESSION['customer']);
+        self::$account = DBController::getAccount($_SESSION['account']);
         self::$user = DBController::getUser($_SESSION['userid']);
-
-        // $long_inputs = ["customer-address", "account-name"];
 
         // Labels
         $category = $values[0];
 
-        $labels = array_reverse(array_slice($values, 1));
-
         $sublabels = self::convert_to_short_key($values);
 
+        $labels = array_reverse(array_slice($values, 1));        
+
+        // Label title
         $label_title = ucwords(implode(" ", $labels));
+
+        // Value in input
         $full_name = implode("-", $values);
 
-        // Init variables
-        $input_type = '';
+        $letter_variable = DBController::getVariable($category, $sublabels);
+
+        // Init variable
         $result = '';
 
-        // Json
-        $json = self::readJsonFile('src/word/letter-variables.json');
+        if ($letter_variable != null) {            
+            switch ($category) {
+                case 'customer':
+                    $object = self::$customer;
+                    break;
+                case 'account':
+                    $object = self::$account;
+                    break;
+                case 'consultant':
+                    $object = self::$user;
+                    break;
+            }
 
-        // Check if key is present in category and access metadata
-        if (isset($json[$category])) {
-            $variable_info = $json[$category];
+            // Check if the function exists in the Customer class
+            if ($object != null && method_exists($object, $letter_variable -> method)) {
+                $method = $letter_variable -> method;
 
-            // Access nested information
-            if (isset($variable_info[$sublabels])) {
-
-                $variable_metadata = $variable_info[$sublabels];
-
-                // Print the information
-                // echo "Key: " . $variable_metadata['key'] . "\n";
-                // echo "Input Type: " . $variable_metadata['input-type'] . "\n";
-
-                // Retrieve the function name
-                $function_name = $variable_metadata['function'];
-
-                // identify relevant object via switch case
-                $object = null;
-                
-                switch ($category) {
-                    case 'customer':
-                        $object = self::$customer;
-                        break;
-                    case 'account':
-                        $object = self::$account;
-                        break;
-                    case 'consultant':
-                        $object = self::$user;
-                        break;
-                }
-
-                // Check if the function exists in the Customer class
-                if ($object != null && method_exists($object, $function_name)) {
-                    $result = $object -> $function_name();
-                } else {
-                    // echo "Function '$function_name' does not exist in the Customer class.";
-                }
-
-                // Retrieve the input type
-                $input_type = $variable_metadata['input-type'];
+                $result = $object -> $method();
+            } else {
+                // echo "Function '$function_name' does not exist in the Customer class.";
             }
         }
 
         // Check if the function exists in the Customer class
-        if ($input_type == 'long') {
+        if ($letter_variable -> box == 'long') {
             // Create label and input
             $input_result = <<<END
-                <textarea name="$full_name" required>$result</textarea>
+                <textarea name="$full_name">$result</textarea>
                 END;
 
         } else {

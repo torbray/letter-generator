@@ -36,12 +36,21 @@ header.top-bar .title-logo {
     font-weight: 400;
 }
 
-header.top-bar .employee-id {
+.header-display {
+    display: flex;
+
+    font-size: 12px;
+}
+
+.header-label {
+    display: block;
+    margin: 0 15px;
+
     align-self: center;
 }
 
-header.top-bar .employee-id span {
-    margin-left: 10px;
+.header-value {
+    margin-left: 2px;
 }
 
 header.top-bar .title-button {
