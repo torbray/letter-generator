@@ -1,7 +1,5 @@
 <?php
 
-define ('URL', 'http://localhost/letter-generator/');
-
 include 'src/checksession.php';
 require_once 'src/controller/dbcontroller.php';
 
