@@ -26,6 +26,17 @@ class Customer {
         return $this -> address;
     }
 
+    /**
+     * For prototype purposes only
+     * 
+     * See Account class for account name reasoning
+     */
+    public function generateAccountName() {
+        $format = $this -> last_name . " " . $this -> first_name;
+
+        return strtoupper($format);
+    }
+
 }
 
 ?>

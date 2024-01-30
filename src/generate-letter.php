@@ -24,6 +24,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // var_dump($_POST);
 
         $template -> generatePDF($_POST);
+
+        DBController::logLetterTransaction(
+            $_SESSION['letter'],
+            $_SESSION['userid'],
+            $_SESSION['customer'],
+            $_SESSION['account']
+        );
+
         // echo "Review button has been clicked";
     }
 }

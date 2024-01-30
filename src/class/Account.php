@@ -7,6 +7,7 @@ class Account {
     public $account_type = "";
     public $balance = "";
     public $open_date = "";
+    public $name = null;
 
     function __construct($account_id, $account_type, $balance, $open_date) {
         $this -> account_id = $account_id;
@@ -41,6 +42,34 @@ class Account {
         return date("d/m/Y", strtotime($this -> open_date));
     }
 
+     /**
+     * I've thought about this functionality for a long time
+     * 
+     * Basically - in ANZ, account names are input manually by staff and generally include each
+     * account holder on file. Account names are not expected to be standardized - if an account 
+     * has 4+ holders, it can be awkward adding all account owners on file.
+     * 
+     * The developer declares account name standardization outside of the scope of the IT project
+     * 
+     * For the purposes of demonstrating the prototype, only sample account names will be generated
+     * based on the customer the letter is generating for.
+     */
+    
+    /**
+     * For prototype purposes only
+     * @param name Expect name in "LAST FIRST" format
+     */
+    public function setAccountName($name) {
+        $this -> name = $name;
+    }
+
+    public function generateSampleAccountName() {
+        if (empty($this -> name)) {
+            return '';
+        } else {
+            return $this -> name;
+        }
+    }
 }
 
 ?>

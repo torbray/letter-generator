@@ -9,8 +9,19 @@ class LetterController {
     static $user = null;
 
     public static function generateInput(...$values) {
+
         self::$customer = DBController::getCustomer($_SESSION['customer']);
-        self::$account = DBController::getAccount($_SESSION['account']);
+
+        if ($_SESSION['account'] > 0) {
+            self::$account = DBController::getAccount($_SESSION['account']);
+
+            // Declare dynamically an account name
+            // See Account class for further info
+            if (!empty(self::$customer)) {
+                self::$account -> setAccountName(self::$customer -> generateAccountName());
+            }
+        }
+
         self::$user = DBController::getUser($_SESSION['userid']);
 
         // Labels

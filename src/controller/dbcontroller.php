@@ -292,6 +292,9 @@ class DBController {
         }
     }
 
+    /**
+     * @return Customer|null
+     */
     public static function getCustomer($search) {
         // Database search
         self::getDBConnection();
@@ -464,7 +467,7 @@ class DBController {
      */
     public static function findCustomer($search) {
         // Connect to database here
-        DBController::getDBConnection();
+        self::getDBConnection();
 
         $query = <<<SQL
             SELECT customer_id
@@ -474,7 +477,7 @@ class DBController {
             SQL;
     
         // Bind params to query
-        $stmt = mysqli_prepare(DBController::$DBC, $query);
+        $stmt = mysqli_prepare(self::$DBC, $query);
         mysqli_stmt_bind_param($stmt,'i', $search);
         mysqli_stmt_execute($stmt);
     
@@ -491,7 +494,7 @@ class DBController {
 
     public static function getPassword($search) {
         // Connect to database here
-        DBController::getDBConnection();
+        self::getDBConnection();
 
         $query = <<<SQL
             SELECT dob
@@ -501,7 +504,7 @@ class DBController {
             SQL;
     
         // Bind params to query
-        $stmt = mysqli_prepare(DBController::$DBC, $query);
+        $stmt = mysqli_prepare(self::$DBC, $query);
         mysqli_stmt_bind_param($stmt,'i', $search);
         mysqli_stmt_execute($stmt);
     
@@ -518,6 +521,27 @@ class DBController {
         } else {
             throw new Exception('Customer id does not exist ');
         }
+    }
+
+    public static function logLetterTransaction($letter_type, $employee_id, $customer_id, $account_id) {
+        self::getDBConnection();
+
+        $date = date('Y-m-d');
+        $time = date("H:i:s");
+
+        // Add log to database
+        // Some letters don't require accounts - account ids will get logged anyway and
+        // deemed unimportant
+        $query = <<<SQL
+            INSERT INTO audit_log (log_date, log_time, letter_type, employee_id, customer_id, account_id)
+            VALUES (?, ?, ?, ?, ?, ?);
+            SQL;
+
+        $stmt = mysqli_prepare(self::$DBC, $query); //prepare the query
+        mysqli_stmt_bind_param($stmt,'sssiii', $date, $time, $letter_type, $employee_id, $customer_id, $account_id); 
+        mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+        
     }
 }
 

@@ -8,6 +8,7 @@ require_once 'src/controller/dbcontroller.php';
 // Declaring error variables
 $search_error = 0;
 $search_error_msg = '';
+$_SESSION['account'] = 0;
 
 // Check if the form is submitted
 if (isset($_POST['submit']) and !empty($_POST['submit'])) {
