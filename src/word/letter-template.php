@@ -11,6 +11,7 @@ class LetterTemplate extends TemplateProcessor {
 
         // Init variable
         $password = null;
+        $cache_directory = 'var/cache/';
 
         // Set date value
         $this -> setValue("date", date("d/m/Y"));
@@ -33,15 +34,15 @@ class LetterTemplate extends TemplateProcessor {
         
         // Saves temporary Word .docx file in var/cache
         $filename = "test template result";
-        $this -> saveAs('var/cache/' . $filename . '.docx');
+        $this -> saveAs($cache_directory . $filename . '.docx');
         
         \PhpOffice\PhpWord\Settings::setPdfRendererName(\PhpOffice\PhpWord\Settings::PDF_RENDERER_MPDF);
         \PhpOffice\PhpWord\Settings::setPdfRendererPath('vendor/mpdf/mpdf');
         
         // Saves temporary unencrypted .pdf file in var/cache
-        $phpWord = IOFactory::load('var/cache/' . $filename . '.docx');
+        $phpWord = IOFactory::load($cache_directory . $filename . '.docx');
         $writer = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'PDF');
-        $writer -> save('var/cache/' . $filename . '.pdf');
+        $writer -> save($cache_directory . $filename . '.pdf');
         
         // Include the main TCPDF library and TCPDI.
         require_once('vendor/tecnickcom/tcpdf/tcpdf.php');
@@ -58,7 +59,7 @@ class LetterTemplate extends TemplateProcessor {
         
         // Add a page from a PDF by file path.
         $pdf -> AddPage();
-        $pdf -> setSourceFile('var/cache/' . $filename . '.pdf');
+        $pdf -> setSourceFile($cache_directory . $filename . '.pdf');
         $idx = $pdf -> importPage(1);
         $pdf -> useTemplate($idx);
         
@@ -72,13 +73,18 @@ class LetterTemplate extends TemplateProcessor {
         header('Expires: 0');
         header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
         header('Pragma: public');
-        header('Content-Length: ' . filesize('var/cache/output.pdf'));
+        header('Content-Length: ' . filesize($cache_directory . 'output.pdf'));
         
-        $file = 'var/cache/output.pdf';
+        $file = $cache_directory . 'output.pdf';
         
         // Send for download
         readfile($file);
         
+        // Delete all temporary files
+        // Get all files in the cache directory
+        unlink($cache_directory . 'test template result.docx');
+        unlink($cache_directory . 'test template result.pdf');
+        unlink($cache_directory . 'output.pdf');
     }
 }
 

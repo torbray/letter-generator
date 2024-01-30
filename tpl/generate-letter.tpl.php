@@ -28,7 +28,10 @@ include "tpl/header.php";
 
         <section class="letter-values">
             <form action="" method="post" class="letters" onsubmit="return confirmLetter()">
-                <input id="letter-password" name="letter-password" value="<?php echo DBController::getPassword($_SESSION['customer']); ?>" readonly required />
+                <div class="letter-variable">
+                    <label for="letter-password">Password:</label>
+                    <input id="letter-password" name="letter-password" value="<?php echo DBController::getPassword($_SESSION['customer']); ?>" readonly required />
+                </div>   
 
                 <?php                
                 /** Letter template variables
@@ -56,7 +59,6 @@ include "tpl/header.php";
                     echo '</div>';
 
                 }
-                
                 ?>
 
                 <div class="letter-controls">

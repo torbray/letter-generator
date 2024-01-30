@@ -38,7 +38,7 @@ if (isset($_GET['filename']) and !empty($_GET['filename'])) {
         case 'admin/delete-user';
             include 'tpl/admin.delete-user.tpl.php';
             break;
-
+            
         case 'logout':
         case 'admin/logout':
             include 'tpl/logout.tpl.php';
