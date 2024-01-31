@@ -10,6 +10,7 @@ class LetterTemplate extends TemplateProcessor {
     public function generatePDF($values) {
 
         // Init variable
+        $letter_name = 'Confirmation Letter';
         $password = null;
         $cache_directory = 'var/cache/';
 
@@ -18,12 +19,20 @@ class LetterTemplate extends TemplateProcessor {
         
         // Word template replacement for each key/ value pair
         foreach ($values as $key => $value) {
+
+            // Special values (exclude submit or letter-password for template replacement)
             if ($key == "submit") {
                 continue;
             } else if ($key == "letter-password") {
                 $password = $value;
                 continue;
             }
+
+            // Get customer name for letter template file
+            if ($key == 'customer-name-full') {
+                $letter_name = strtoupper($value);
+            }
+
             // Replace key - with .
             $desc = str_replace("-", ".", $key);
 
@@ -62,29 +71,30 @@ class LetterTemplate extends TemplateProcessor {
         $pdf -> setSourceFile($cache_directory . $filename . '.pdf');
         $idx = $pdf -> importPage(1);
         $pdf -> useTemplate($idx);
+
+        // Name file after customer, else default name
+        $file = $cache_directory . $letter_name . '.pdf';
         
-        file_put_contents('var/cache/output.pdf', $pdf -> Output('', 'S'));
+        file_put_contents('var/cache/'. $letter_name . '.pdf', $pdf -> Output('', 'S'));
         
         // save as a random file in temp file
         header('Content-Description: File Transfer');
         header('Content-Type: application/pdf');
-        header('Content-Disposition: attachment; filename=output.pdf');
+        header('Content-Disposition: attachment; filename=' . $letter_name . '.pdf');
         header('Content-Transfer-Encoding: binary');
         header('Expires: 0');
         header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
         header('Pragma: public');
-        header('Content-Length: ' . filesize($cache_directory . 'output.pdf'));
-        
-        $file = $cache_directory . 'output.pdf';
+        header('Content-Length: ' . filesize($file));
         
         // Send for download
         readfile($file);
         
         // Delete all temporary files
         // Get all files in the cache directory
-        unlink($cache_directory . 'test template result.docx');
-        unlink($cache_directory . 'test template result.pdf');
-        unlink($cache_directory . 'output.pdf');
+        unlink($cache_directory . $filename . '.docx');
+        unlink($cache_directory . $filename . '.pdf');
+        unlink($cache_directory . $letter_name . '.pdf');
     }
 }
 

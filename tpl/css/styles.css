@@ -75,8 +75,9 @@ header.top-bar .title-button:hover {
 
 body {
     background-image: url("../images/wellington-landscape.jpg");
+    background-position: center;
     background-repeat: no-repeat;
-    background-size: auto 100vh;
+    /* background-size: auto; */
 }
 
 .main-body {
